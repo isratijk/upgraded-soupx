@@ -1,0 +1,96 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Automatic Contamination Estimation" id="auto-est-detail">
+    <mxGraphModel dx="2268" dy="1508" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1100" pageHeight="2050" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontStyle=1;fontSize=25;fontColor=#1A1A2E;" value="Automatic Contamination Estimation with Bayesian MAP" vertex="1">
+          <mxGeometry height="36" width="820" x="120" y="-43" as="geometry" />
+        </mxCell>
+        <mxCell id="3" parent="1" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fillColor=#D6EAF8;strokeColor=#1F618D;strokeWidth=2;fontStyle=1;fontSize=25;verticalAlign=top;" value="&lt;b&gt;Input: Single Cell RNA Data&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-weight: normal;&quot;&gt;All-droplet count matrix, cell-only count matrix, and a cluster label for each cell&lt;/span&gt;" vertex="1">
+          <mxGeometry height="115" width="677" x="193" y="23" as="geometry" />
+        </mxCell>
+        <mxCell id="4" parent="1" style="rounded=1;arcSize=6;whiteSpace=wrap;html=1;strokeWidth=2.5;fontStyle=1;fontSize=25;verticalAlign=top;fillColor=#EAF2FF;strokeColor=#2471A3;" value="&lt;b&gt;Step 1: Build the Ambient Soup Profile&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-weight: normal;&quot;&gt;Sum gene counts from empty droplets that contain no real cell.&lt;br&gt;Divide each gene total by the grand total to get its fraction in the ambient fluid.&lt;/span&gt;" vertex="1">
+          <mxGeometry height="181" width="688" x="186" y="168" as="geometry" />
+        </mxCell>
+        <mxCell id="5" edge="1" parent="1" source="3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#2471A3;strokeWidth=2.5;endArrow=block;endFill=1;fontSize=25;" target="4" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="6" parent="1" style="rounded=1;arcSize=6;whiteSpace=wrap;html=1;strokeWidth=2.5;fontStyle=1;fontSize=25;verticalAlign=top;fillColor=#EAFAF1;strokeColor=#1E8449;" value="&lt;b&gt;Step 2: Summarize Counts by Cell Group&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-weight: normal;&quot;&gt;Add up gene counts and total RNA for all cells within each cluster.&lt;br&gt;This reduces the data to group-level totals, making estimation faster and more stable.&lt;/span&gt;" vertex="1">
+          <mxGeometry height="181" width="693" x="184" y="382" as="geometry" />
+        </mxCell>
+        <mxCell id="7" edge="1" parent="1" source="4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#1E8449;strokeWidth=2.5;endArrow=block;endFill=1;fontSize=25;" target="6" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="8" parent="1" style="rounded=1;arcSize=6;whiteSpace=wrap;html=1;strokeWidth=2.5;fontStyle=1;fontSize=25;verticalAlign=top;fillColor=#F5EEF8;strokeColor=#6C3483;" value="&lt;b&gt;Step 3: Find Diagnostic Marker Genes&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-weight: normal;&quot;&gt;Score each gene for how specifically it belongs to one cell group using TF-IDF.&lt;br&gt;Keep only genes above the specificity threshold that are also common in the ambient fluid, up to 100 genes.&lt;/span&gt;" vertex="1">
+          <mxGeometry height="198" width="692" x="185" y="616" as="geometry" />
+        </mxCell>
+        <mxCell id="9" edge="1" parent="1" source="6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#6C3483;strokeWidth=2.5;endArrow=block;endFill=1;fontSize=25;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="8" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="532.5999999999999" y="853" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="10" parent="1" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fillColor=#FEF9E7;strokeColor=#7D6608;strokeWidth=2;fontStyle=0;fontSize=25;verticalAlign=top;" value="&lt;b&gt;Settings used&lt;/b&gt;&lt;br&gt;Specificity threshold: 1.0&lt;br&gt;Soup presence: top 10 percent&lt;br&gt;Maximum genes: 100" vertex="1">
+          <mxGeometry height="170" width="440" x="-322" y="630" as="geometry" />
+        </mxCell>
+        <mxCell id="11" edge="1" parent="1" source="8" style="edgeStyle=elbowEdgeStyle;elbow=vertical;rounded=1;strokeColor=#7D6608;strokeWidth=1.5;strokeDasharray=6 3;endArrow=open;endFill=0;fontSize=25;" target="10" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="12" parent="1" style="rounded=1;arcSize=6;whiteSpace=wrap;html=1;strokeWidth=2.5;fontStyle=1;fontSize=25;verticalAlign=top;fillColor=#FEF5E7;strokeColor=#935116;" value="&lt;b&gt;Step 4: Identify Cell Groups That Do Not Express Each Marker&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-weight: normal;&quot;&gt;For each marker gene and cell group, run a Poisson test to check whether observed counts exceed what the ambient soup alone would predict.&lt;br&gt;If any cell in a group shows significant over-expression, the entire group is excluded for that gene.&lt;/span&gt;" vertex="1">
+          <mxGeometry height="246" width="674" x="194" y="883" as="geometry" />
+        </mxCell>
+        <mxCell id="13" edge="1" parent="1" source="8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#935116;strokeWidth=2.5;endArrow=block;endFill=1;fontSize=25;" target="12" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="14" parent="1" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fillColor=#FEF9E7;strokeColor=#7D6608;strokeWidth=2;fontStyle=0;fontSize=25;verticalAlign=top;" value="&lt;b&gt;Settings used&lt;/b&gt;&lt;br&gt;FDR threshold: 20 percent&lt;br&gt;Correction applied per gene across all cells" vertex="1">
+          <mxGeometry height="150" width="440" x="-330" y="920" as="geometry" />
+        </mxCell>
+        <mxCell id="15" edge="1" parent="1" source="12" style="edgeStyle=elbowEdgeStyle;elbow=vertical;rounded=1;strokeColor=#7D6608;strokeWidth=1.5;strokeDasharray=6 3;endArrow=open;endFill=0;fontSize=25;" target="14" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="16" parent="1" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fillColor=#F4F6F7;strokeColor=#717D7E;strokeWidth=2;fontStyle=0;fontSize=25;verticalAlign=top;" value="&lt;b&gt;Why exclude the whole group?&lt;/b&gt;&lt;br&gt;If even one cell in a group genuinely expresses the gene, using that group would mix real expression with ambient signal and bias the estimate upward." vertex="1">
+          <mxGeometry height="170" width="602" x="913" y="915" as="geometry" />
+        </mxCell>
+        <mxCell id="17" edge="1" parent="1" source="12" style="edgeStyle=elbowEdgeStyle;elbow=vertical;rounded=1;strokeColor=#717D7E;strokeWidth=1.5;strokeDasharray=6 3;endArrow=open;endFill=0;fontSize=25;" target="16" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="18" parent="1" style="rounded=1;arcSize=6;whiteSpace=wrap;html=1;strokeWidth=2.5;fontStyle=1;fontSize=25;verticalAlign=top;fillColor=#EBF5FB;strokeColor=#1A5276;" value="&lt;b&gt;Step 5: Compute a Contamination Estimate per Gene and Group&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-weight: normal;&quot;&gt;For each trusted gene-group pair, divide the observed count by the expected count from the soup fraction times the group total RNA.&lt;br&gt;Each pair contributes one independent estimate of the contamination fraction.&lt;/span&gt;" vertex="1">
+          <mxGeometry height="230" width="662" x="200" y="1183" as="geometry" />
+        </mxCell>
+        <mxCell id="19" edge="1" parent="1" source="12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#1A5276;strokeWidth=2.5;endArrow=block;endFill=1;fontSize=25;" target="18" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="20" parent="1" style="rounded=1;arcSize=6;whiteSpace=wrap;html=1;strokeWidth=2.5;fontStyle=1;fontSize=25;verticalAlign=top;fillColor=#FDEBD0;strokeColor=#935116;" value="&lt;b&gt;Step 6: Find the Best Global Contamination Fraction&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-weight: normal;&quot;&gt;Test 1001 candidate values and find the one with the highest joint probability given all the gene-group evidence from Step 5.&lt;br&gt;The joint posterior combines a Gamma prior with Poisson likelihoods for each pair, then picks the peak within the allowed range.&lt;/span&gt;" vertex="1">
+          <mxGeometry height="238" width="659" x="202" y="1463" as="geometry" />
+        </mxCell>
+        <mxCell id="21" edge="1" parent="1" source="18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#935116;strokeWidth=2.5;endArrow=block;endFill=1;fontSize=25;" target="20" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="22" parent="1" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fillColor=#FEF9E7;strokeColor=#7D6608;strokeWidth=2;fontStyle=0;fontSize=25;verticalAlign=top;" value="&lt;b&gt;Settings used&lt;/b&gt;&lt;br&gt;Prior mean: 5 percent&lt;br&gt;Prior standard deviation: 10 percent&lt;br&gt;Candidates tested: 1001&lt;br&gt;Allowed range: 1 to 80 percent" vertex="1">
+          <mxGeometry height="195" width="440" x="-332" y="1478" as="geometry" />
+        </mxCell>
+        <mxCell id="23" edge="1" parent="1" source="20" style="edgeStyle=elbowEdgeStyle;elbow=vertical;rounded=1;strokeColor=#7D6608;strokeWidth=1.5;strokeDasharray=6 3;endArrow=open;endFill=0;fontSize=25;" target="22" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="24" parent="1" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fillColor=#F4F6F7;strokeColor=#717D7E;strokeWidth=2;fontStyle=0;fontSize=25;verticalAlign=top;" value="&lt;b&gt;Why joint posterior?&lt;/b&gt;&lt;br&gt;The original SoupX averaged individual probability curves separately, which is statistically incorrect. This version multiplies all evidence together into one correct joint score before finding the best answer." vertex="1">
+          <mxGeometry height="185" width="602" x="927" y="1478" as="geometry" />
+        </mxCell>
+        <mxCell id="25" edge="1" parent="1" source="20" style="edgeStyle=elbowEdgeStyle;elbow=vertical;rounded=1;strokeColor=#717D7E;strokeWidth=1.5;strokeDasharray=6 3;endArrow=open;endFill=0;fontSize=25;" target="24" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="26" parent="1" style="rounded=1;arcSize=6;whiteSpace=wrap;html=1;strokeWidth=2.5;fontStyle=1;fontSize=25;verticalAlign=top;fillColor=#E8F8F5;strokeColor=#1A7349;" value="&lt;b&gt;Step 7: Remove Contamination from Each Cell&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-weight: normal;&quot;&gt;Subtract expected ambient counts from each cell using the contamination fraction from Step 6 and the ambient profile from Step 1.&lt;br&gt;Any count that would go below zero is set to zero.&lt;/span&gt;" vertex="1">
+          <mxGeometry height="196" width="659" x="202" y="1764" as="geometry" />
+        </mxCell>
+        <mxCell id="27" edge="1" parent="1" source="20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#1A7349;strokeWidth=2.5;endArrow=block;endFill=1;fontSize=25;" target="26" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="28" parent="1" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fillColor=#D5F5E3;strokeColor=#1E8449;strokeWidth=2;fontStyle=1;fontSize=25;verticalAlign=top;" value="&lt;b&gt;Output: Corrected Count Matrix&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-weight: normal;&quot;&gt;Cleaned count matrix with ambient RNA removed from every cell, plus a single contamination fraction for the whole dataset.&lt;/span&gt;" vertex="1">
+          <mxGeometry height="135" width="681" x="191" y="2023" as="geometry" />
+        </mxCell>
+        <mxCell id="29" edge="1" parent="1" source="26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#1E8449;strokeWidth=2.5;endArrow=block;endFill=1;fontSize=25;" target="28" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

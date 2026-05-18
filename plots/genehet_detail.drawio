@@ -1,0 +1,88 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="DecontX Gene Heterogeneity" id="decontx-genehet-detail">
+    <mxGraphModel dx="1957" dy="1323" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1100" pageHeight="1350" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontStyle=1;fontSize=25;fontColor=#1A1A2E;" value="DecontX with Gene Heterogeneity Reweighting" vertex="1">
+          <mxGeometry height="36" width="780" x="106" y="-35" as="geometry" />
+        </mxCell>
+        <mxCell id="3" parent="1" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fillColor=#D6EAF8;strokeColor=#1F618D;strokeWidth=2;fontStyle=1;fontSize=25;verticalAlign=top;" value="&lt;b&gt;Input: Single Cell RNA Data&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-weight: normal;&quot;&gt;All-droplet count matrix, cell-only count matrix, and a cluster label for each cell&lt;/span&gt;" vertex="1">
+          <mxGeometry height="115" width="677" x="193" y="23" as="geometry" />
+        </mxCell>
+        <mxCell id="4" parent="1" style="rounded=1;arcSize=6;whiteSpace=wrap;html=1;strokeWidth=2.5;fontStyle=1;fontSize=25;verticalAlign=top;fillColor=#EAF2FF;strokeColor=#2471A3;" value="&lt;b&gt;Step 1: Build the Ambient Soup Profile&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-weight: normal;&quot;&gt;Sum gene counts from empty droplets that contain no real cell.&lt;br&gt;Divide each gene total by the grand total to get its fraction in the ambient fluid.&lt;/span&gt;" vertex="1">
+          <mxGeometry height="181" width="688.5" x="185.75" y="168" as="geometry" />
+        </mxCell>
+        <mxCell id="5" edge="1" parent="1" source="3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#2471A3;strokeWidth=2.5;endArrow=block;endFill=1;fontSize=25;" target="4" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="6" parent="1" style="rounded=1;arcSize=6;whiteSpace=wrap;html=1;strokeWidth=2.5;fontStyle=1;fontSize=25;verticalAlign=top;fillColor=#EAFAF1;strokeColor=#1E8449;" value="&lt;b&gt;Step 2: Get a First Estimate of Contamination&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-weight: normal;&quot;&gt;Find genes specific to one cell group but present in the ambient fluid, then pick the contamination percentage that best explains the counts seen in non-expressing cells.&lt;br&gt;Save one value per cell as a warm start for Step 6.&lt;/span&gt;" vertex="1">
+          <mxGeometry height="166" width="693" x="183.5" y="382" as="geometry" />
+        </mxCell>
+        <mxCell id="7" edge="1" parent="1" source="4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#1E8449;strokeWidth=2.5;endArrow=block;endFill=1;fontSize=25;" target="6" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="8" parent="1" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fillColor=#FEF9E7;strokeColor=#7D6608;strokeWidth=2;fontStyle=0;fontSize=25;verticalAlign=top;" value="&lt;b&gt;Settings used&lt;/b&gt;&lt;br&gt;Specificity threshold: 1.0&lt;br&gt;Soup presence: top 10 percent&lt;br&gt;Prior contamination: 5 percent&lt;br&gt;Allowed range: 1 to 80 percent&lt;br&gt;Grid size: 1001 candidate values" vertex="1">
+          <mxGeometry height="195" width="481" x="-386" y="370" as="geometry" />
+        </mxCell>
+        <mxCell id="9" edge="1" parent="1" source="6" style="edgeStyle=elbowEdgeStyle;elbow=vertical;rounded=1;strokeColor=#7D6608;strokeWidth=1.5;strokeDasharray=6 3;endArrow=open;endFill=0;fontSize=25;" target="8" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="10" parent="1" style="rounded=1;arcSize=6;whiteSpace=wrap;html=1;strokeWidth=2.5;fontStyle=1;fontSize=25;verticalAlign=top;fillColor=#F5EEF8;strokeColor=#6C3483;" value="&lt;b&gt;Step 3: Score Each Gene by How Ambient It Is&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-weight: normal;&quot;&gt;For each gene, compute log(1 plus ambient share divided by cell share) and clip the result between 0.5 and 1.5.&lt;br&gt;Genes far more abundant in the ambient fluid than in cells receive a higher score.&lt;/span&gt;" vertex="1">
+          <mxGeometry height="161" width="662" x="198" y="587" as="geometry" />
+        </mxCell>
+        <mxCell id="11" edge="1" parent="1" source="6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#6C3483;strokeWidth=2.5;endArrow=block;endFill=1;fontSize=25;" target="10" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="12" parent="1" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fillColor=#F4F6F7;strokeColor=#717D7E;strokeWidth=2;fontStyle=0;fontSize=25;verticalAlign=top;" value="&lt;b&gt;Why do this?&lt;/b&gt;&lt;br&gt;When soup and cells share many of the same genes, the model cannot separate contamination from real expression. Upweighting uniquely ambient genes gives the model a clearer signal." vertex="1">
+          <mxGeometry height="170" width="582" x="937" y="578" as="geometry" />
+        </mxCell>
+        <mxCell id="13" edge="1" parent="1" source="10" style="edgeStyle=elbowEdgeStyle;elbow=vertical;rounded=1;strokeColor=#717D7E;strokeWidth=1.5;strokeDasharray=6 3;endArrow=open;endFill=0;fontSize=25;" target="12" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="14" parent="1" style="rounded=1;arcSize=6;whiteSpace=wrap;html=1;strokeWidth=2.5;fontStyle=1;fontSize=25;verticalAlign=top;fillColor=#FEF5E7;strokeColor=#935116;" value="&lt;b&gt;Step 4: Sharpen the Ambient Profile Using the Scores&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-weight: normal;&quot;&gt;Multiply each gene&#39;s ambient fraction by its score from Step 3, then rescale so fractions sum to one.&lt;br&gt;The sharpened profile emphasizes genes that are truly ambient and is used as the fixed ambient component in Step 6.&lt;/span&gt;" vertex="1">
+          <mxGeometry height="188" width="668" x="195" y="790" as="geometry" />
+        </mxCell>
+        <mxCell id="15" edge="1" parent="1" source="10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#935116;strokeWidth=2.5;endArrow=block;endFill=1;fontSize=25;" target="14" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="17" edge="1" parent="1" source="14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#1A5276;strokeWidth=2.5;endArrow=block;endFill=1;fontSize=25;" target="16" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="18" parent="1" style="rounded=1;arcSize=6;whiteSpace=wrap;html=1;strokeWidth=2.5;fontStyle=1;fontSize=25;verticalAlign=top;fillColor=#FDEBD0;strokeColor=#935116;" value="&lt;b&gt;Step 6: Estimate Per-Cell Contamination with EM&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-weight: normal;&quot;&gt;Model each cell as a mix of ambient RNA (Step 4 profile) and native expression (shared gene topics from Step 5), starting from the values in Step 2.&lt;br&gt;Alternate between attributing counts to ambient versus native and updating estimates until the largest per-cell change is below 0.0001.&lt;/span&gt;" vertex="1">
+          <mxGeometry height="243" width="659.5" x="199.5" y="1291" as="geometry" />
+        </mxCell>
+        <mxCell id="19" edge="1" parent="1" source="16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#935116;strokeWidth=2.5;endArrow=block;endFill=1;fontSize=25;" target="18" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="20" parent="1" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fillColor=#FEF9E7;strokeColor=#7D6608;strokeWidth=2;fontStyle=0;fontSize=25;verticalAlign=top;" value="&lt;b&gt;Settings used&lt;/b&gt;&lt;br&gt;Topics: one per cluster (at least 2)&lt;br&gt;Maximum iterations: 300&lt;br&gt;Genes: top 2000 most variable plus all genes in top 10 percent of ambient profile&lt;br&gt;Starting values: per-cell estimates from Step 2&lt;br&gt;Topic start: from PCA (Step 5)" vertex="1">
+          <mxGeometry height="332" width="410" x="-287" y="1005" as="geometry" />
+        </mxCell>
+        <mxCell id="21" edge="1" parent="1" source="16" style="edgeStyle=elbowEdgeStyle;elbow=vertical;rounded=1;strokeColor=#7D6608;strokeWidth=1.5;strokeDasharray=6 3;endArrow=open;endFill=0;fontSize=25;" target="20" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="22" parent="1" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fillColor=#F4F6F7;strokeColor=#717D7E;strokeWidth=2;fontStyle=0;fontSize=25;verticalAlign=top;" value="&lt;b&gt;What are the shared topics for?&lt;/b&gt;&lt;br&gt;Topics let cells with similar biology share information so that rare cell types still get stable contamination estimates even when their own data is sparse." vertex="1">
+          <mxGeometry height="160" width="510" x="902" y="1316" as="geometry" />
+        </mxCell>
+        <mxCell id="23" edge="1" parent="1" source="18" style="edgeStyle=elbowEdgeStyle;elbow=vertical;rounded=1;strokeColor=#717D7E;strokeWidth=1.5;strokeDasharray=6 3;endArrow=open;endFill=0;fontSize=25;" target="22" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="24" parent="1" style="rounded=1;arcSize=6;whiteSpace=wrap;html=1;strokeWidth=2.5;fontStyle=1;fontSize=25;verticalAlign=top;fillColor=#E8F8F5;strokeColor=#1A7349;" value="&lt;b&gt;Step 7: Remove Contamination from Each Cell&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-weight: normal;&quot;&gt;Subtract expected ambient counts from each cell using its contamination fraction from Step 6 and the sharpened profile from Step 4.&lt;br&gt;Any count that would go below zero is set to zero.&lt;/span&gt;" vertex="1">
+          <mxGeometry height="184" width="656.5" x="202.5" y="1601" as="geometry" />
+        </mxCell>
+        <mxCell id="25" edge="1" parent="1" source="18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#1A7349;strokeWidth=2.5;endArrow=block;endFill=1;fontSize=25;" target="24" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="26" parent="1" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fillColor=#D5F5E3;strokeColor=#1E8449;strokeWidth=2;fontStyle=1;fontSize=25;verticalAlign=top;" value="&lt;b&gt;Output: Corrected Count Matrix&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-weight: normal;&quot;&gt;Cleaned count matrix with ambient RNA removed from every cell, plus a per-cell contamination fraction.&lt;/span&gt;" vertex="1">
+          <mxGeometry height="134" width="654.5" x="203.5" y="1852" as="geometry" />
+        </mxCell>
+        <mxCell id="27" edge="1" parent="1" source="24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#1E8449;strokeWidth=2.5;endArrow=block;endFill=1;fontSize=25;" target="26" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="16" parent="1" style="rounded=1;arcSize=6;whiteSpace=wrap;html=1;strokeWidth=2.5;fontStyle=1;fontSize=25;verticalAlign=top;fillColor=#EBF5FB;strokeColor=#1A5276;" value="&lt;b&gt;Step 5: Prepare Starting Gene Expression Patterns via PCA&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-weight: normal;&quot;&gt;Find the top principal components of the normalized cell counts using sparse computation.&lt;br&gt;Each component is a group of co-varying genes and serves as a starting topic profile for Step 6.&lt;/span&gt;" vertex="1">
+          <mxGeometry height="201" width="665" x="196.5" y="1043" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
