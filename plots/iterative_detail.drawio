@@ -1,0 +1,76 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Iterative Soup Profile Refinement" id="iterative-detail">
+    <mxGraphModel dx="2476" dy="1631" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1100" pageHeight="1450" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontStyle=1;fontSize=25;fontColor=#1A1A2E;" value="Iterative Soup Profile Refinement" vertex="1">
+          <mxGeometry height="36" width="780" x="140" y="-43" as="geometry" />
+        </mxCell>
+        <mxCell id="3" parent="1" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fillColor=#D6EAF8;strokeColor=#1F618D;strokeWidth=2;fontStyle=1;fontSize=25;verticalAlign=top;" value="&lt;b&gt;Input: Single Cell RNA Data&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-weight: normal;&quot;&gt;All-droplet count matrix, cell-only count matrix, and a cluster label for each cell&lt;/span&gt;" vertex="1">
+          <mxGeometry height="115" width="677" x="193" y="23" as="geometry" />
+        </mxCell>
+        <mxCell id="4" parent="1" style="rounded=1;arcSize=6;whiteSpace=wrap;html=1;strokeWidth=2.5;fontStyle=1;fontSize=25;verticalAlign=top;fillColor=#EAF2FF;strokeColor=#2471A3;" value="&lt;b&gt;Step 1: Build the Ambient Soup Profile&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-weight: normal;&quot;&gt;Sum gene counts from empty droplets that contain no real cell.&lt;br&gt;Divide each gene total by the grand total to get its fraction in the ambient fluid.&lt;/span&gt;" vertex="1">
+          <mxGeometry height="181" width="688" x="186" y="168" as="geometry" />
+        </mxCell>
+        <mxCell id="5" edge="1" parent="1" source="3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#2471A3;strokeWidth=2.5;endArrow=block;endFill=1;fontSize=25;" target="4" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="6" parent="1" style="rounded=1;arcSize=6;whiteSpace=wrap;html=1;strokeWidth=2.5;fontStyle=1;fontSize=25;verticalAlign=top;fillColor=#EAFAF1;strokeColor=#1E8449;" value="&lt;b&gt;Step 2: First Round Contamination Estimate&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-weight: normal;&quot;&gt;Find genes specific to one cell group but present in the ambient fluid, then pick the contamination percentage that best explains the counts in non-expressing cells.&lt;br&gt;Apply this fraction to produce a first cleaned count matrix.&lt;/span&gt;" vertex="1">
+          <mxGeometry height="181" width="693" x="184" y="382" as="geometry" />
+        </mxCell>
+        <mxCell id="7" edge="1" parent="1" source="4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#1E8449;strokeWidth=2.5;endArrow=block;endFill=1;fontSize=25;" target="6" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="8" parent="1" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fillColor=#FEF9E7;strokeColor=#7D6608;strokeWidth=2;fontStyle=0;fontSize=25;verticalAlign=top;" value="&lt;b&gt;Settings used&lt;/b&gt;&lt;br&gt;Specificity threshold: 1.0&lt;br&gt;Soup presence: top 10 percent&lt;br&gt;Prior contamination: 5 percent&lt;br&gt;Allowed range: 1 to 80 percent&lt;br&gt;Grid size: 1001 candidate values" vertex="1">
+          <mxGeometry height="195" width="481" x="-355" y="388" as="geometry" />
+        </mxCell>
+        <mxCell id="9" edge="1" parent="1" source="6" style="edgeStyle=elbowEdgeStyle;elbow=vertical;rounded=1;strokeColor=#7D6608;strokeWidth=1.5;strokeDasharray=6 3;endArrow=open;endFill=0;fontSize=25;" target="8" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="10" parent="1" style="rounded=1;arcSize=6;whiteSpace=wrap;html=1;strokeWidth=2.5;fontStyle=1;fontSize=25;verticalAlign=top;fillColor=#F5EEF8;strokeColor=#6C3483;" value="&lt;b&gt;Step 3: Down-weight Genes That Are Truly Cellular&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-weight: normal;&quot;&gt;Compare each gene&#39;s share in the cleaned cell counts to its share in the ambient soup.&lt;br&gt;Genes still strongly expressed in cells after correction have their soup weight reduced, with a floor of 30 percent of the original weight.&lt;/span&gt;" vertex="1">
+          <mxGeometry height="200" width="676" x="193.5" y="599" as="geometry" />
+        </mxCell>
+        <mxCell id="11" edge="1" parent="1" source="6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#6C3483;strokeWidth=2.5;endArrow=block;endFill=1;fontSize=25;" target="10" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="12" parent="1" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fillColor=#F4F6F7;strokeColor=#717D7E;strokeWidth=2;fontStyle=0;fontSize=25;verticalAlign=top;" value="&lt;b&gt;Why reduce those genes?&lt;/b&gt;&lt;br&gt;If a gene is still highly expressed in cells after removing contamination, it is more likely genuine cellular expression than ambient RNA. Reducing its weight in the soup profile stops it from inflating the contamination estimate in the next round." vertex="1">
+          <mxGeometry height="195" width="602" x="917" y="607" as="geometry" />
+        </mxCell>
+        <mxCell id="13" edge="1" parent="1" source="10" style="edgeStyle=elbowEdgeStyle;elbow=vertical;rounded=1;strokeColor=#717D7E;strokeWidth=1.5;strokeDasharray=6 3;endArrow=open;endFill=0;fontSize=25;" target="12" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="14" parent="1" style="rounded=1;arcSize=6;whiteSpace=wrap;html=1;strokeWidth=2.5;fontStyle=1;fontSize=25;verticalAlign=top;fillColor=#FEF5E7;strokeColor=#935116;" value="&lt;b&gt;Step 4: Re-estimate Contamination with the Refined Soup Profile&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-weight: normal;&quot;&gt;Run the same estimation as Step 2 using the original cell counts and the adjusted soup profile from Step 3.&lt;br&gt;If the average change in estimates is below 0.001 the process stops; otherwise Steps 2 to 4 repeat.&lt;/span&gt;" vertex="1">
+          <mxGeometry height="196" width="668" x="196.5" y="842" as="geometry" />
+        </mxCell>
+        <mxCell id="15" edge="1" parent="1" source="10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#935116;strokeWidth=2.5;endArrow=block;endFill=1;fontSize=25;" target="14" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="16" parent="1" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fillColor=#FEF9E7;strokeColor=#7D6608;strokeWidth=2;fontStyle=0;fontSize=25;verticalAlign=top;" value="&lt;b&gt;Settings used&lt;/b&gt;&lt;br&gt;Number of rounds: 2&lt;br&gt;Shrink factor: 5.0&lt;br&gt;Minimum soup weight: 30 percent of original&lt;br&gt;Convergence threshold: 0.001 mean absolute change" vertex="1">
+          <mxGeometry height="235" width="484" x="-347" y="842" as="geometry" />
+        </mxCell>
+        <mxCell id="17" edge="1" parent="1" source="14" style="edgeStyle=elbowEdgeStyle;elbow=vertical;rounded=1;strokeColor=#7D6608;strokeWidth=1.5;strokeDasharray=6 3;endArrow=open;endFill=0;fontSize=25;" target="16" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="18" parent="1" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fillColor=#F4F6F7;strokeColor=#717D7E;strokeWidth=2;fontStyle=0;fontSize=25;verticalAlign=top;" value="&lt;b&gt;Why use the original counts again?&lt;/b&gt;&lt;br&gt;Re-running on the original uncorrected counts ensures the refined soup profile is evaluated against unmodified data. This prevents the first correction from biasing the second estimate." vertex="1">
+          <mxGeometry height="170" width="602" x="917" y="855" as="geometry" />
+        </mxCell>
+        <mxCell id="19" edge="1" parent="1" source="14" style="edgeStyle=elbowEdgeStyle;elbow=vertical;rounded=1;strokeColor=#717D7E;strokeWidth=1.5;strokeDasharray=6 3;endArrow=open;endFill=0;fontSize=25;" target="18" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="20" parent="1" style="rounded=1;arcSize=6;whiteSpace=wrap;html=1;strokeWidth=2.5;fontStyle=1;fontSize=25;verticalAlign=top;fillColor=#E8F8F5;strokeColor=#1A7349;" value="&lt;b&gt;Step 5: Remove Contamination from Each Cell&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-weight: normal;&quot;&gt;Subtract expected ambient counts from each cell using the final contamination fraction from Step 4 and the refined soup profile from Step 3.&lt;br&gt;Any count that would go below zero is set to zero.&lt;/span&gt;" vertex="1">
+          <mxGeometry height="181" width="659" x="202" y="1067" as="geometry" />
+        </mxCell>
+        <mxCell id="21" edge="1" parent="1" source="14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#1A7349;strokeWidth=2.5;endArrow=block;endFill=1;fontSize=25;" target="20" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="22" parent="1" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fillColor=#D5F5E3;strokeColor=#1E8449;strokeWidth=2;fontStyle=1;fontSize=25;verticalAlign=top;" value="&lt;b&gt;Output: Corrected Count Matrix&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-weight: normal;&quot;&gt;Cleaned count matrix with ambient RNA removed from every cell, plus a per-cell contamination fraction.&lt;/span&gt;" vertex="1">
+          <mxGeometry height="115" width="677" x="193.5" y="1281" as="geometry" />
+        </mxCell>
+        <mxCell id="23" edge="1" parent="1" source="20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#1E8449;strokeWidth=2.5;endArrow=block;endFill=1;fontSize=25;" target="22" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,243 @@
+/* -- Hero -- */
+.heroBanner {
+  padding: 4.5rem 0 5rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.heroVersion {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  padding: 0 0.5rem;
+  font-size: 0.75em;
+  vertical-align: middle;
+  margin-left: 0.5rem;
+}
+
+.heroAuthor {
+  font-size: 1rem;
+  opacity: 0.75;
+  margin: -0.5rem 0 1.5rem;
+  font-style: italic;
+  letter-spacing: 0.01em;
+}
+
+.heroCtas {
+  display: flex;
+  gap: 0.85rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+}
+
+.btnPrimary {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.72rem 1.75rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 700;
+  text-decoration: none;
+  background: #ffffff;
+  color: #0f172a;
+  border: 2px solid #ffffff;
+  transition: background 0.18s ease, transform 0.15s ease, box-shadow 0.18s ease;
+  box-shadow: 0 2px 14px rgba(0,0,0,0.2);
+  letter-spacing: 0.01em;
+}
+
+.btnPrimary:hover {
+  background: #e0f7f4;
+  color: #0f172a;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 22px rgba(0,0,0,0.25);
+  text-decoration: none;
+}
+
+.btnGhost {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.72rem 1.75rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  background: transparent;
+  color: #ffffff;
+  border: 2px solid rgba(255,255,255,0.75);
+  transition: background 0.18s ease, border-color 0.18s ease, transform 0.15s ease;
+  letter-spacing: 0.01em;
+}
+
+.btnGhost:hover {
+  background: rgba(255,255,255,0.15);
+  border-color: #ffffff;
+  color: #ffffff;
+  transform: translateY(-2px);
+  text-decoration: none;
+}
+
+/* -- Stats strip -- */
+.statsStrip {
+  background: linear-gradient(90deg, #0d9488, #0891b2);
+  color: white;
+  padding: 2.5rem 0;
+  text-align: center;
+}
+
+.statCol {
+  padding: 0.5rem 1rem;
+}
+
+.statNumber {
+  font-size: 2.4rem;
+  font-weight: 900;
+  line-height: 1;
+  display: block;
+}
+
+.statLabel {
+  font-size: 0.78rem;
+  opacity: 0.85;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  display: block;
+  margin-top: 0.4rem;
+}
+
+/* -- Features -- */
+.features {
+  padding: 4rem 0;
+}
+
+.featuresSectionHeader {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto 3rem;
+}
+
+.featuresSectionHeader h2 {
+  font-size: 1.9rem;
+  margin-bottom: 0.75rem;
+}
+
+.featureCol {
+  padding: 0.75rem;
+}
+
+.featureCard {
+  border: 1px solid var(--ifm-toc-border-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+  height: 100%;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.featureCard:hover {
+  box-shadow: 0 8px 24px rgba(13, 148, 136, 0.15);
+  transform: translateY(-3px);
+}
+
+.featureIcon {
+  width: 3rem;
+  height: 3rem;
+  margin-bottom: 0.8rem;
+  display: block;
+}
+
+.featureTitle {
+  font-size: 1.05rem;
+  margin-bottom: 0.5rem;
+}
+
+.featureDesc {
+  font-size: 0.9rem;
+  margin: 0;
+  line-height: 1.55;
+}
+
+/* -- Quick example -- */
+.quickExampleSection {
+  padding: 4rem 0;
+  background: var(--ifm-background-surface-color, #f0fdfa);
+}
+
+.quickExampleRow {
+  align-items: center;
+}
+
+.quickExampleText h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+.quickLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  font-size: 0.95rem;
+}
+
+/* -- Pipeline table -- */
+.pipelineSection {
+  padding: 4rem 0;
+}
+
+.pipelineTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.pipelineTable th,
+.pipelineTable td {
+  padding: 0.7rem 1rem;
+  border: 1px solid var(--ifm-toc-border-color);
+  text-align: left;
+}
+
+.pipelineTable th {
+  background: var(--ifm-color-primary);
+  color: white;
+  font-weight: 600;
+}
+
+.pipelineTable tr:nth-child(even) td {
+  background: var(--ifm-background-surface-color, #f8fafc);
+}
+
+/* -- Install + Citation -- */
+.installSection {
+  padding: 4rem 0;
+  background: var(--ifm-background-surface-color, #f0fdfa);
+}
+
+.installRow {
+  align-items: flex-start;
+}
+
+.citation {
+  border-left: 4px solid var(--ifm-color-primary);
+  border-radius: 0 8px 8px 0;
+  padding: 0.75rem 1rem;
+  margin: 0.75rem 0;
+  font-size: 0.88rem;
+}
+
+.citation p {
+  margin: 0;
+}
+
+.authorNote {
+  font-size: 0.9rem;
+  margin-top: 1rem;
+  color: var(--ifm-font-color-secondary, #555);
+}
+
+@media (max-width: 996px) {
+  .heroBanner {
+    padding: 3rem 1rem;
+  }
+}
