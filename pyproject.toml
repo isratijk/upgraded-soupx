@@ -3,11 +3,34 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "soupx"
-version = "1.6.0"
-description = "Ambient RNA contamination removal for droplet scRNA-seq — Python port of R SoupX"
+name = "upgraded-soupx"
+version = "1.7.0"
+description = "Ambient RNA contamination removal for droplet scRNA-seq - Python port and extension of R SoupX"
 license = { text = "MIT" }
+readme = "README.md"
 requires-python = ">=3.9"
+authors = [
+    { name = "Israt Jahan Khan", email = "isratjahankhanijk@gmail.com" },
+]
+keywords = [
+    "single-cell RNA-seq",
+    "ambient RNA",
+    "decontamination",
+    "SoupX",
+    "DecontX",
+    "bioinformatics",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+]
 dependencies = [
     "numpy>=1.21",
     "scipy>=1.7",
@@ -16,6 +39,12 @@ dependencies = [
     "matplotlib>=3.4",
     "tqdm>=4.60",
 ]
+
+[project.urls]
+Homepage = "https://isratijk.github.io/Upgraded-soupX/"
+Repository = "https://github.com/IsratIJK/Upgraded-soupX"
+Documentation = "https://isratijk.github.io/Upgraded-soupX/"
+"Bug Tracker" = "https://github.com/IsratIJK/Upgraded-soupX/issues"
 
 [project.optional-dependencies]
 dev = ["pytest>=7", "pytest-cov"]
@@ -27,11 +56,6 @@ downstream = [
 ]
 h5 = ["h5py>=3.0"]
 anndata = ["anndata>=0.9"]
-docs = [
-    "mkdocs>=1.5",
-    "mkdocs-material>=9.0",
-    "pymdown-extensions>=10.0",
-]
 
 [tool.hatch.build.targets.wheel]
 packages = ["SoupX"]

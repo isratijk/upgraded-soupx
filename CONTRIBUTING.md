@@ -1,4 +1,4 @@
-# Contributing to SoupX (Python)
+# Contributing to Upgraded-SoupX
 
 Thank you for your interest in contributing! This document describes how to set up your development environment, submit changes, and follow project conventions.
 

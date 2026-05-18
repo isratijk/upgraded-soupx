@@ -1,7 +1,8 @@
 """
-SoupX — ambient RNA contamination removal for droplet scRNA-seq.
+Upgraded-SoupX - ambient RNA contamination removal for droplet scRNA-seq.
 
-Python port of the R SoupX package (Young & Behjati, 2020).
+Python port and extension of the R SoupX package (Young & Behjati, 2020).
+Developed by Israt Jahan Khan (https://www.isratjahankhan.com).
 
 Typical workflow
 ----------------
@@ -85,7 +86,10 @@ from .downstream import (
     run_downstream,
 )
 
-__version__ = '1.6.0.python'
+__version__ = '1.7.0'
+__author__ = 'Israt Jahan Khan'
+__email__ = 'isratjahankhanijk@gmail.com'
+__url__ = 'https://github.com/IsratIJK/Upgraded-soupX'
 __all__ = [
     'cross_species_reduction',
     'marker_fold_change',

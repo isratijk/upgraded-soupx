@@ -1,8 +1,18 @@
-# SoupX — Python
+# Upgraded-SoupX
 
 **Ambient RNA contamination removal for droplet-based single-cell RNA-seq**
 
-A full Python port and extension of the original [SoupX R package](https://github.com/constantAmateur/SoupX) (Young & Behjati, 2020). Drops the R dependency entirely, adds probabilistic per-cell decontamination (DecontX), doublet-aware estimation, gene-heterogeneity correction, a complete downstream analysis pipeline, and eight quantitative benchmark metrics — all on top of the same core `SoupChannel` abstraction.
+[![Tests](https://github.com/IsratIJK/Upgraded-soupX/actions/workflows/tests.yml/badge.svg)](https://github.com/IsratIJK/Upgraded-soupX/actions/workflows/tests.yml)
+[![Docs](https://github.com/IsratIJK/Upgraded-soupX/actions/workflows/docs.yml/badge.svg)](https://isratijk.github.io/Upgraded-soupX/)
+
+**Developed by [Israt Jahan Khan](https://www.isratjahankhan.com)**
+- LinkedIn: https://www.linkedin.com/in/isratijk/
+- Google Scholar: https://scholar.google.com/citations?user=n4mCE9QAAAAJ&hl=en
+- Email: isratjahankhanijk@gmail.com
+
+📖 **[Full documentation](https://isratijk.github.io/Upgraded-soupX/)**
+
+A full Python port and extension of the original [SoupX R package](https://github.com/constantAmateur/SoupX) (Young & Behjati, 2020). Drops the R dependency entirely, adds probabilistic per-cell decontamination (DecontX), doublet-aware estimation, gene-heterogeneity correction, a complete downstream analysis pipeline, and eight quantitative benchmark metrics - all on top of the same core `SoupChannel` abstraction.
 
 ---
 
@@ -32,9 +42,9 @@ A full Python port and extension of the original [SoupX R package](https://githu
 
 ## Background
 
-Droplet-based scRNA-seq protocols (10X Chromium and similar) capture cells inside oil droplets. Before cells are captured, free RNA released by lysed cells accumulates in the suspension — this ambient pool is called the **soup**. Every droplet carries a small amount of soup in addition to the cell's own transcriptome, introducing systematic contamination that inflates expression counts for highly expressed ambient genes across all cell types.
+Droplet-based scRNA-seq protocols (10X Chromium and similar) capture cells inside oil droplets. Before cells are captured, free RNA released by lysed cells accumulates in the suspension - this ambient pool is called the **soup**. Every droplet carries a small amount of soup in addition to the cell's own transcriptome, introducing systematic contamination that inflates expression counts for highly expressed ambient genes across all cell types.
 
-SoupX models this contamination using the empty-droplet pool to infer the soup expression profile, then estimates the per-cell or per-cluster contamination fraction (ρ) and subtracts it from the count matrix.
+SoupX models this contamination using the empty-droplet pool to infer the soup expression profile, then estimates the per-cell or per-cluster contamination fraction (rho) and subtracts it from the count matrix.
 
 ---
 
@@ -44,7 +54,7 @@ SoupX models this contamination using the empty-droplet pool to infer the soup e
 |---|---|---|
 | Core SoupX workflow | Yes | Yes (full parity) |
 | DecontX per-cell decontamination | No | Yes (`run_decontx`) |
-| Per-cell ρ refinement | No | Yes (`estimate_cell_rho`, `estimate_decontx_rho`) |
+| Per-cell rho refinement | No | Yes (`estimate_cell_rho`, `estimate_decontx_rho`) |
 | Doublet-aware estimation | No | Yes (`estimate_doublet_scores`, `auto_est_cont_doublet_aware`) |
 | Gene-heterogeneity correction | No | Yes (`compute_gene_enrichment`, `run_decontx_genehet`) |
 | Iterative contamination refinement | No | Yes (`iterative_auto_est_cont`) |
@@ -57,7 +67,7 @@ SoupX models this contamination using the empty-droplet pool to infer the soup e
 
 ## Installation
 
-**Requirements:** Python ≥ 3.9
+**Requirements:** Python >= 3.9
 
 ### From source (development)
 
@@ -97,7 +107,7 @@ sc = load_10x('path/to/cellranger/outs/')
 # Attach cluster labels (from Seurat, Scanpy, or any clustering)
 sc = set_clusters(sc, cluster_labels)
 
-# Automatically estimate contamination fraction (ρ)
+# Automatically estimate contamination fraction (rho)
 sc = auto_est_cont(sc)
 
 # Remove contamination; returns corrected sparse count matrix
@@ -110,7 +120,7 @@ corrected = adjust_counts(sc)
 
 ### Automatic (recommended)
 
-Uses tf-idf marker detection + Bayesian aggregation to estimate ρ without prior knowledge of which genes are contaminated.
+Uses tf-idf marker detection + Bayesian aggregation to estimate rho without prior knowledge of which genes are contaminated.
 
 ```python
 from SoupX import load_10x, set_clusters, auto_est_cont, adjust_counts
@@ -143,7 +153,7 @@ corrected = adjust_counts(sc)
 
 ### Per-cell probabilistic (DecontX)
 
-Two-component latent-variable model (LDA-based) that estimates ρ independently for every cell. More sensitive to contamination heterogeneity across the tissue.
+Two-component latent-variable model (LDA-based) that estimates rho independently for every cell. More sensitive to contamination heterogeneity across the tissue.
 
 ```python
 from SoupX import load_10x, set_clusters, run_decontx
@@ -165,7 +175,7 @@ sc_out = run_decontx(
 
 ### Iterative refinement
 
-Runs `auto_est_cont` → `adjust_counts` → re-estimates markers in a loop until ρ converges.
+Runs `auto_est_cont` -> `adjust_counts` -> re-estimates markers in a loop until rho converges.
 
 ```python
 from SoupX import load_10x, set_clusters, iterative_auto_est_cont
@@ -218,9 +228,9 @@ plot_change_map(sc, corrected, dr='umap')
 
 | Function | Description |
 |---|---|
-| `auto_est_cont(sc)` | Fully automatic ρ estimation (tf-idf + Bayesian) |
+| `auto_est_cont(sc)` | Fully automatic rho estimation (tf-idf + Bayesian) |
 | `estimate_non_expressing_cells(sc, gene_list)` | Identify cells/clusters safe to use for manual calibration |
-| `calculate_contamination_fraction(sc, gene_list, use_to_est)` | Manual Poisson GLM-based ρ |
+| `calculate_contamination_fraction(sc, gene_list, use_to_est)` | Manual Poisson GLM-based rho |
 | `estimate_cell_rho(sc)` | Per-cell refinement via empirical Bayes shrinkage |
 | `estimate_decontx_rho(sc)` | Per-cell refinement via DecontX EM |
 | `iterative_auto_est_cont(sc)` | Iterative refinement loop |
@@ -267,7 +277,7 @@ plot_change_map(sc, corrected, dr='umap')
 | `score_cell_types(sc, marker_dict)` | Score cells against a marker dictionary |
 | `plot_embedding(sc)` | Plot UMAP/tSNE coloured by any metadata column |
 | `plot_top_de_genes(sc)` | Dot/violin plot of top DE genes |
-| `run_downstream(sc)` | Full pipeline: norm → PCA → UMAP → Leiden → DE |
+| `run_downstream(sc)` | Full pipeline: norm -> PCA -> UMAP -> Leiden -> DE |
 
 ### Assessment Metrics
 
@@ -291,10 +301,10 @@ plot_change_map(sc, corrected, dr='umap')
 | Dataset | Cells | Format | Key Use |
 |---|---|---|---|
 | `toyData` (in-repo) | ~500 | 10X v2 | Regression golden baseline; always available |
-| `pbmc_10k_v3` | ~10K | 10X v3 | Clean blood; near-zero ρ baseline |
+| `pbmc_10k_v3` | ~10K | 10X v3 | Clean blood; near-zero rho baseline |
 | `hgmm_1k` | 1K | 10X v2 barnyard | Human+mouse mix; exact per-cell ground truth via species math |
 | `E-MTAB-7407` (fetal liver) | ~200K | Custom archive | HBB-dominated soup; interpretable ground truth |
-| `rep1_Zenodo` | — | HDF5 + RDS | Ground-truth CAST allele contamination |
+| `rep1_Zenodo` | - | HDF5 + RDS | Ground-truth CAST allele contamination |
 
 ### Downloading datasets from S3
 
@@ -309,14 +319,14 @@ After downloading and extracting, the contents go under `dataset/`:
 ```
 dataset/
 └── upgraded_soupX_datasets/
-    ├── toyData/                  ← in-repo, always present
+    ├── toyData/                  <- in-repo, always present
     ├── hgmm_1k/
     ├── pbmc_10k_v3/
     ├── E-MTAB-7407_fetal_liver/
     └── rep1_Zenodo/
 ```
 
-#### Option A — AWS CLI (recommended)
+#### Option A - AWS CLI (recommended)
 
 ```bash
 # Configure credentials (or use IAM role / instance profile)
@@ -331,7 +341,7 @@ cd dataset && unzip upgraded_soupX_datasets.zip && cd ..
 
 Replace `<BUCKET>` and `<PREFIX>` with the values from your `.env` file.
 
-#### Option B — Python (boto3)
+#### Option B - Python (boto3)
 
 ```python
 import os, zipfile, boto3
@@ -346,7 +356,7 @@ with zipfile.ZipFile(dest, "r") as zf:
     zf.extractall("dataset/")
 ```
 
-#### Option C — Pre-signed URL
+#### Option C - Pre-signed URL
 
 ```bash
 curl -L "https://<presigned-url>" -o dataset/upgraded_soupX_datasets.zip
@@ -397,8 +407,8 @@ python benchmarks/benchmark.py
 ### Standalone validation scripts
 
 ```bash
-python benchmarks/validate_hgmm.py          # barnyard — exact ground truth
-python benchmarks/validate_fetal_liver.py   # fetal liver — HBB soup profile
+python benchmarks/validate_hgmm.py         # barnyard - exact ground truth
+python benchmarks/validate_fetal_liver.py  # fetal liver - HBB soup profile
 ```
 
 ---
@@ -444,7 +454,7 @@ The test suite covers 16 modules:
 
 ```
 Upgraded-soupX/
-├── SoupX/                          # Python package (v1.6.0)
+├── SoupX/                          # Python package (v1.7.0)
 │   ├── __init__.py                 # Public API, version
 │   ├── soup_channel.py             # SoupChannel class
 │   ├── io.py                       # load_10x, load_10x_h5
@@ -466,13 +476,19 @@ Upgraded-soupX/
 │   └── upgraded_soupX_datasets/   # Extracted from upgraded_soupX_datasets.zip
 ├── tests/                          # Pytest test suite (16 modules)
 ├── plots/                          # Benchmark visualization outputs
-├── docs/                           # Static documentation site (MkDocs)
+├── website/                        # Docusaurus documentation site
+│   ├── docs/                       # MDX documentation pages
+│   ├── src/                        # Custom React components + landing page
+│   ├── static/                     # Static assets (plots, icons, favicon)
+│   └── docusaurus.config.js        # Site configuration
 ├── .github/
 │   ├── ISSUE_TEMPLATE/             # Bug report + feature request templates
 │   ├── PULL_REQUEST_TEMPLATE.md    # PR checklist
-│   └── workflows/tests.yml         # CI (GitHub Actions)
+│   ├── workflows/docs.yml          # Docs deploy (Docusaurus -> GitHub Pages)
+│   └── workflows/tests.yml         # CI: pytest across Python 3.9-3.12
 ├── pyproject.toml                  # Package metadata and dependencies
 ├── requirements.txt                # Pinned/optional dependencies
+├── CITATION.cff                    # Machine-readable citation (GitHub, Zenodo, Zotero)
 ├── .env.example                    # Environment variable template
 ├── CHANGELOG.md                    # Version history
 ├── CONTRIBUTING.md                 # Contribution guidelines
@@ -483,7 +499,11 @@ Upgraded-soupX/
 
 ## Citation
 
-If you use this package in your research, please cite the original SoupX paper:
+If you use Upgraded-SoupX in your research, please cite:
+
+> Khan, I.J. (2026). *Upgraded-SoupX: A Python port and extension of SoupX for ambient RNA decontamination in single-cell RNA-seq.* GitHub. https://github.com/IsratIJK/Upgraded-soupX
+
+Also cite the original algorithms:
 
 > Young, M.D. & Behjati, S. (2020). SoupX removes ambient RNA contamination from droplet-based single-cell RNA sequencing data. *GigaScience*, 9(12), giaa151. https://doi.org/10.1093/gigascience/giaa151
 
@@ -493,7 +513,7 @@ If you use the DecontX-based decontamination:
 
 Dataset citations:
 
-- **E-MTAB-7407 (Fetal Liver)**: Popescu, D.-M. et al. (2019). Decoding human fetal liver haematopoiesis. *Nature*, 574, 365–371.
+- **E-MTAB-7407 (Fetal Liver)**: Popescu, D.-M. et al. (2019). Decoding human fetal liver haematopoiesis. *Nature*, 574, 365-371.
 - **scKidneyTumors**: Young, M.D. et al. Single cell transcriptomes from human kidneys reveal the cellular identity of renal tumours. *Science*.
 
 ---
